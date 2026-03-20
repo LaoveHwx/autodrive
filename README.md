@@ -1,16 +1,16 @@
-# AutoDrive Simulator - 第一人称自动驾驶演示
+# AutoDrive Simulator - First-Person Autonomous Driving Demo
 
-一个使用 Pygame + OpenCV 实现的**第一人称视角自动驾驶模拟器**，旨在帮助开发者理解车道保持（Lane Keeping）、人机共驾、PID 控制、3D 透视投影等核心概念。
+A **first-person perspective autonomous driving simulator** implemented using Pygame + OpenCV, designed to help developers understand core concepts such as lane keeping, human-machine co-driving, PID control, and 3D perspective projection.
 
-### 主要特性
-- 真实感第一人称视角（行车记录仪风格）
-- 平滑弯道生成 + 动态路灯参照物（判断居中效果）
-- 人机共驾模式：A/D 键持续操控方向盘，轻微修正自动回正，强转向智能换道
-- 方向盘物理模拟（渐进转向 + 阻尼回正）
-- 实时 OpenCV 边缘检测预览（模拟感知模块）
-- 可调参数配置文件（Config.py），轻松修改 FOV、车速、PID 等
+### Main Features
+- Realistic first-person view (dashcam style)
+- Smooth curve generation + dynamic streetlight references (for center alignment)
+- Human-machine co-driving mode: use A/D keys to continuously control the steering wheel, minor adjustments auto-center, sharp turns trigger intelligent lane changes
+- Steering wheel physics simulation (progressive steering + damping auto-centering)
+- Real-time OpenCV edge detection preview (simulating perception module)
+- Adjustable configuration file (Config.py) to easily modify FOV, speed, PID, etc.
 
-### 快速开始
+### Quick Start
 ```bash
 pip install pygame opencv-python numpy
 python autodrive_simu/main.py
