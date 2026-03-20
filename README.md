@@ -1,4 +1,4 @@
-# AutoDrive Simulator - 第一人称自动驾驶教学演示
+# AutoDrive Simulator - 第一人称自动驾驶演示
 
 一个使用 Pygame + OpenCV 实现的**第一人称视角自动驾驶模拟器**，旨在帮助开发者理解车道保持（Lane Keeping）、人机共驾、PID 控制、3D 透视投影等核心概念。
 
