@@ -2,6 +2,7 @@ class Config:
     SCREEN_WIDTH = 900
     SCREEN_HEIGHT = 600
     FPS = 60
+    WORLD_CENTER_X = 0.0
 
     # 2.5D 引擎盖上方相机参数
     CAMERA_HEIGHT = 150.0
@@ -19,19 +20,26 @@ class Config:
     # 道路参数（现实高速公路比例）
     LANE_WIDTH = 240
     ROAD_WIDTH = LANE_WIDTH * 3
-    ROAD_SPEED = 22              # 100–120 km/h 巡航最自然路面流动感
-    CURVE_CHANCE = 0.008         # 现实高速弯道频率
+    ROAD_SPEED = 26              # 100–120 km/h 巡航最自然路面流动感
+    ROAD_SAMPLE_STEP = 32
+    TRACK_LOOP_LENGTH = 14000.0
+    TRACK_CURVE_AMPLITUDE = 460.0
+    TRACK_CURVE_SECONDARY_AMPLITUDE = 150.0
+    CURVE_CHANCE = 0.0
     MAX_ANGLE = 30
 
     # 人机共驾 + 方向盘物理（最接近真实 LKA + 手动干预）
-    KP = 0.11
-    KD = 0.82
-    LOOKAHEAD_DIST = 300
+    KP = 0.08
+    KD = 0.55
+    CURVE_FEED_FORWARD = 0.36
+    LOOKAHEAD_DIST = 420
 
-    MAX_STEER_MANUAL = 22.0
-    MAX_STEER_AUTO = 14.0
-    STEER_SMOOTHNESS = 0.18
-    HUMAN_RAMP_SPEED = 0.14      # 持续按住转向渐进，更真实
+    MAX_STEER_MANUAL = 24.0
+    MAX_STEER_AUTO = 18.0
+    STEER_SMOOTHNESS = 0.22
+    HUMAN_RAMP_SPEED = 0.20      # 持续按住转向渐进，更真实
+    OVERRIDE_ATTACK = 0.22
+    OVERRIDE_RELEASE = 0.82
     LANE_CHANGE_THRESHOLD = 10.0
 
     COLOR_SKY = (105, 175, 245)
@@ -47,9 +55,14 @@ class Config:
     COLOR_HUD_OK = (80, 240, 100)
     COLOR_FOG = (38, 115, 38)
 
-    LAMP_INTERVAL = 340          # 现实高速路灯间隔 ≈30–40 m
+    LAMP_INTERVAL = 420          # 现实高速路灯间隔 ≈30–40 m
     LAMP_SIDE_OFFSET = 0.72
-    GUARD_POST_SPACING = 220
+    GUARD_POST_SPACING = 112
+    LANE_DASH_LENGTH = 130
+    LANE_DASH_GAP = 95
+    ROAD_TEXTURE_SPACING = 80
+    SIGN_INTERVAL = 1500
+    OBJECT_SIDE_OFFSET = 0.72
     PERCEPTION_WIDTH = 450
     PERCEPTION_HEIGHT = 300
     ROI_MARGIN = 0.25
