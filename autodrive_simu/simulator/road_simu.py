@@ -148,6 +148,11 @@ class VehicleController:
         elif self.override_fade < 0.15 and abs(current_lane_float - self.target_lane_id) > 0.35:
             self.target_lane_id = nearest
 
+    def draw(self, screen):
+        hood_y = int(Config.SCREEN_HEIGHT * (1 - Config.HOOD_HEIGHT_RATIO))
+        pygame.draw.rect(screen, Config.COLOR_HOOD, (0, hood_y, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT - hood_y))
+        pygame.draw.line(screen, Config.COLOR_HOOD_EDGE, (0, hood_y), (Config.SCREEN_WIDTH, hood_y), 3)
+
 
 class RoadRenderer:
     def __init__(self):
@@ -182,7 +187,7 @@ class RoadRenderer:
             a = cache[i]
             b = cache[i + 1]
             poly = [a["left"][:2], b["left"][:2], b["right"][:2], a["right"][:2]]
-            fog_factor = min(1.0, (a["point"].z / Config.FAR_CLIP) ** 1.2)
+            fog_factor = min(1.0, max(0, a["point"].z / Config.FAR_CLIP) ** 1.2)
             surface_color = tuple((road_color * (1 - fog_factor) + fog_color * fog_factor).astype(int))
             pygame.draw.polygon(screen, surface_color, poly)
 
@@ -194,7 +199,7 @@ class RoadRenderer:
             b = cache[i + 1]
             if a["point"].z < 0 or b["point"].z < 0:
                 continue
-            fog_factor = min(1.0, (a["point"].z / Config.FAR_CLIP) ** 1.2)
+            fog_factor = min(1.0, max(0, a["point"].z / Config.FAR_CLIP) ** 1.2)
             mark_color = tuple((line_color * (1 - fog_factor) + fog_color * fog_factor).astype(int))
             thickness = max(1, int(5 * (1 - fog_factor)))
             for j in range(1, 3):
@@ -221,7 +226,8 @@ class RoadRenderer:
             right_x = int(data["right"][0] + Config.ROAD_WIDTH * 0.55 * scale)
             y = data["left"][1]
             top_y = y - pole_height
-            color = tuple((guard_color * (1 - min(1, point.z / Config.FAR_CLIP)) + fog_color * min(1, point.z / Config.FAR_CLIP)).astype(int))
+            fog_factor = min(1.0, max(0, point.z / Config.FAR_CLIP))
+            color = tuple((guard_color * (1 - fog_factor) + fog_color * fog_factor).astype(int))
             pygame.draw.line(screen, color, (left_x, top_y), (left_x, y), pole_width)
             pygame.draw.line(screen, color, (right_x, top_y), (right_x, y), pole_width)
 
@@ -235,7 +241,14 @@ class RoadRenderer:
         left_far = camera.project(center_far - Config.ROAD_WIDTH * 0.6, 0.0, far_z, camera.smoothed_x)
         right_far = camera.project(center_far + Config.ROAD_WIDTH * 0.6, 0.0, far_z, camera.smoothed_x)
         if left_near[3] and right_near[3] and left_far[3] and right_far[3]:
-            self.roi_poly = [left_near[:2], left_far[:2], right_far[:2], right_near[:2]]
+            def clamp(x, y):
+                return max(0, min(Config.SCREEN_WIDTH, x)), max(0, min(Config.SCREEN_HEIGHT, y))
+            self.roi_poly = [
+                clamp(left_near[0], left_near[1]),
+                clamp(left_far[0], left_far[1]),
+                clamp(right_far[0], right_far[1]),
+                clamp(right_near[0], right_near[1])
+            ]
         else:
             self.roi_poly = [(0, Config.SCREEN_HEIGHT), (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT), (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT // 2), (0, Config.SCREEN_HEIGHT // 2)]
 
